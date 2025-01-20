@@ -1,0 +1,27 @@
+{
+    "tasks": [
+        {
+            "id": 1,
+            "name": "Learn React",
+            "effort": 5
+        },
+        {
+            "id": 2,
+            "name": "Build Portfolio",
+            "effort": 8
+        },
+        {
+            "id": 3,
+            "name": "Apply for Jobs",
+            "effort": 10
+        }
+    ],
+    "alignments": [
+        {
+            "id": 1,
+            "task1": 1,
+            "task2": 2,
+            "value": 80
+        }
+    ]
+}
