@@ -5,13 +5,13 @@ import TaskDetailComponent from './TaskDetailComponent';
 interface TaskListProps {
     tasks: Task[];
     alignments: Alignment[];
+    selectedTask: Task | null;
     setSelectedTask: React.Dispatch<React.SetStateAction<Task | null>>;
     setSecondTask: React.Dispatch<React.SetStateAction<Task | null>>;
     setAlignments: React.Dispatch<React.SetStateAction<Alignment[]>>;
   }
   
-  const TaskList: React.FC<TaskListProps> = ({ tasks, alignments, setSelectedTask, setSecondTask, setAlignments }) => {
-    const [selectedTask, setSelectedTaskState] = React.useState<Task | null>(null);
+  const TaskList: React.FC<TaskListProps> = ({ tasks, alignments, selectedTask, setSelectedTask, setSecondTask, setAlignments }) => {
   
     return (
       <div>
@@ -21,7 +21,7 @@ interface TaskListProps {
             <li
               key={task.id}
               className="text-white bg-gray-700 p-4 rounded-lg mb-4 cursor-pointer"
-              onClick={() => setSelectedTaskState(task)}
+              onClick={() => setSelectedTask(task)}
             >
               {task.name}
             </li>
