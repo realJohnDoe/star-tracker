@@ -70,13 +70,16 @@ const App = () => {
           xs
           sx={{
             display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
+            flexDirection: 'column',    // This ensures the content inside the Grid is laid out vertically
+            justifyContent: 'center',   // Centers the content vertically if it's small
+            alignItems: 'stretch',      // Ensures that the content stretches horizontally
             bgcolor: 'secondary.main',
             p: 3,
-            flexGrow: 1,      // Ensure it takes up all available space
-            minWidth: 0,       // Prevent flexbox shrinking issues
-            flexBasis: 0,      // Ensure it distributes space correctly
+            flexGrow: 1,                // Makes sure the grid takes all available space
+            minWidth: 0,                // Prevents flexbox shrinking issues
+            flexBasis: 0,               // Ensures correct distribution of space
+            width: '100%',              // Ensures full width
+            height: '100%',             // Ensures full height
           }}
         >
           <TaskVectorVisualization
@@ -86,6 +89,9 @@ const App = () => {
             setSelectedTask={setSelectedTask}
           />
         </Grid>
+
+
+
 
         {/* Right Sidebar: Task Details (only visible if a task is selected) */}
         {selectedTask && (

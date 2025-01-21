@@ -43,13 +43,10 @@ const TaskDetailComponent: React.FC<TaskDetailProps> = ({ task, alignments, task
     return (
         <Box sx={{ bgcolor: 'grey.800', p: 4, borderRadius: 2, color: 'white', boxShadow: 3 }}>
             <Typography variant="h4" gutterBottom>
-                Task Details
+                {task.name}
             </Typography>
             <Typography>
-                <strong>Name:</strong> {task.name}
-            </Typography>
-            <Typography>
-                <strong>Effort:</strong> {task.effort}
+                <strong>Effort:</strong> {task.unit}
             </Typography>
 
             <Typography variant="h6" sx={{ mt: 4 }}>

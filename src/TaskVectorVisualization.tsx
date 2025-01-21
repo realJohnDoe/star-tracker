@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Task, Alignment } from './types';
-import { Box, Typography, Select, MenuItem, Button, SvgIcon, Tooltip } from '@mui/material';
+import { Box, Typography, Tooltip } from '@mui/material';
 
 interface TaskVectorVisualizationProps {
     tasks: Task[];
@@ -15,8 +15,6 @@ const TaskVectorVisualization: React.FC<TaskVectorVisualizationProps> = ({
     selectedTask,
     setSelectedTask,
 }) => {
-    if (!selectedTask) return <Typography color="white">Select a task to visualize.</Typography>;
-
     // Constants for scaling vectors based on units
     const BASE_UNIT_IN_PIXELS = 30;
     const UNIT_SCALE = { Hours: 1, Days: 2, Weeks: 3, Months: 4, Years: 5 };
@@ -29,14 +27,14 @@ const TaskVectorVisualization: React.FC<TaskVectorVisualizationProps> = ({
     const calculateVectorCoordinates = (task: Task) => {
         const magnitude = getMagnitude(1.0, task.unit);
 
-        if (task.id === selectedTask.id) {
+        if (task.id === selectedTask?.id) {
             return { x: 0, y: -magnitude };
         }
 
         const alignment = alignments.find(
             (a) =>
-                (a.task1 === selectedTask.id && a.task2 === task.id) ||
-                (a.task1 === task.id && a.task2 === selectedTask.id)
+                (a.task1 === selectedTask?.id && a.task2 === task.id) ||
+                (a.task1 === task.id && a.task2 === selectedTask?.id)
         );
 
         let angle = 90;
@@ -60,18 +58,20 @@ const TaskVectorVisualization: React.FC<TaskVectorVisualizationProps> = ({
     return (
         <Box
             sx={{
-                width: '100%',
-                height: '100%',
+                width: '100%',  // Full viewport width
+                height: '100%', // Full viewport height
                 bgcolor: 'grey.900',
                 borderRadius: 2,
                 boxShadow: 3,
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
-                alignItems: 'center'
+                alignItems: 'center',
+                position: 'relative', // Ensure the placeholder text can be centered within the SVG
             }}
         >
-            <Box sx={{ bgcolor: 'grey.800', borderRadius: 2, p: 2, overflow: 'hidden' }}>
+            {/* Render the SVG only when a task is selected */}
+            {selectedTask && (
                 <svg
                     width="100%"
                     height="100%"
@@ -91,7 +91,7 @@ const TaskVectorVisualization: React.FC<TaskVectorVisualizationProps> = ({
                                     y1={0}
                                     x2={x}
                                     y2={y}
-                                    stroke={task.id === selectedTask.id ? 'yellow' : 'cyan'}
+                                    stroke={task.id === selectedTask?.id ? 'yellow' : 'cyan'}
                                     strokeWidth="3"
                                     markerEnd="url(#arrowhead)"
                                     onMouseEnter={() => setHoveredTask(task)}
@@ -109,16 +109,26 @@ const TaskVectorVisualization: React.FC<TaskVectorVisualizationProps> = ({
                         </marker>
                     </defs>
                 </svg>
-            </Box>
+            )}
 
-            {selectedTask && (
-                <Box sx={{ mt: 4, p: 2, bgcolor: 'grey.800', borderRadius: 1 }}>
-                    <Typography variant="h6" color="primary">
-                        Selected Task Details
-                    </Typography>
-                    <Typography color="white"><strong>Name:</strong> {selectedTask.name}</Typography>
-                    <Typography color="white"><strong>Effort:</strong> {selectedTask.unit}</Typography>
-                </Box>
+            {/* Placeholder text */}
+            {!selectedTask && (
+                <Typography
+                    variant="h4"
+                    color="white"
+                    sx={{
+                        position: 'absolute', // Absolute positioning to stay within the SVG
+                        zIndex: 1, // Ensure it's on top of the SVG
+                        textAlign: 'center',
+                        width: '100%', // Ensure it takes up full width
+                        height: '100%', // Ensure it takes up full height
+                        display: 'flex', // Make it a flex container
+                        justifyContent: 'center', // Center content horizontally
+                        alignItems: 'center', // Center content vertically
+                    }}
+                >
+                    Select a task to visualize.
+                </Typography>
             )}
         </Box>
     );
