@@ -11,10 +11,15 @@ interface TaskListProps {
 const TaskList: React.FC<TaskListProps> = ({ tasks, setSelectedTask, setSecondTask }) => {
     const [selectedTask, setSelectedTaskState] = React.useState<Task | null>(null);
 
-    const deleteTask = (id: number) => {
-        const updatedTasks = tasks.filter(task => task.id !== id);
-        setSelectedTaskState(null);
-        setSelectedTask(updatedTasks);
+    const deleteTask = async (id: number) => {
+        try {
+            await fetch(`http://localhost:5000/tasks/${id}`, { method: 'DELETE' });
+            const updatedTasks = tasks.filter(task => task.id !== id);
+            setSelectedTaskState(null);
+            setSelectedTask(updatedTasks);
+        } catch (error) {
+            console.error('Error deleting task:', error);
+        }
     };
 
     return (
@@ -32,12 +37,11 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, setSelectedTask, setSecondTa
                 ))}
             </ul>
 
-            {/* Show Task Details when a task is selected */}
             {selectedTask && (
                 <TaskDetailComponent
                     task={selectedTask}
                     tasks={tasks}
-                    alignments={[]}
+                    alignments={[]}  // Placeholder for now
                     setTasks={() => { }}
                     setAlignments={() => { }}
                     deleteTask={deleteTask}

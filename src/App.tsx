@@ -11,29 +11,28 @@ const App = () => {
   const [secondTask, setSecondTask] = useState<Task | null>(null);
 
   useEffect(() => {
-    const storedTasks = localStorage.getItem('tasks');
-    const storedAlignments = localStorage.getItem('alignments');
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/db.json');  // Load from public folder
+        if (!response.ok) {
+          throw new Error('Failed to load data');
+        }
+        const data = await response.json();
+        setTasks(data.tasks);
+        setAlignments(data.alignments);
+      } catch (error) {
+        console.error('Error loading data:', error);
+      }
+    };
 
-    if (storedTasks) {
-      setTasks(JSON.parse(storedTasks));
-    }
-
-    if (storedAlignments) {
-      setAlignments(JSON.parse(storedAlignments));
-    }
+    fetchData();
   }, []);
-
-  useEffect(() => {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-    localStorage.setItem('alignments', JSON.stringify(alignments));
-  }, [tasks, alignments]);
 
   return (
     <div className="bg-gradient-to-br from-indigo-600 via-purple-500 to-pink-500 min-h-screen text-gray-900">
       <div className="max-w-4xl mx-auto p-8">
         <h1 className="text-4xl text-center mb-8 font-semibold text-white">Task Tracker</h1>
 
-        {/* Task Form for Adding New Tasks */}
         <TaskFormComponent
           tasks={tasks}
           setTasks={setTasks}
@@ -41,7 +40,6 @@ const App = () => {
           setNewTask={setNewTask}
         />
 
-        {/* Task List */}
         <TaskList
           tasks={tasks}
           setSelectedTask={setSelectedTask}
