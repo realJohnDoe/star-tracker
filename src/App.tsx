@@ -65,7 +65,7 @@ const App = () => {
           position: 'absolute',
           top: 0,
           left: 0,
-          width: { xs: '100%', md: '300px' },  // Full width on small screens, fixed width on larger
+          width: { xs: '100%', md: '400px' },  // Full width on small screens, fixed width on larger
           maxWidth: { md: '400px' },
           height: '100vh',
           bgcolor: 'secondary.dark',
@@ -99,7 +99,7 @@ const App = () => {
             position: 'absolute',
             top: 0,
             right: 0,
-            width: { xs: '100%', md: '300px' },
+            width: { xs: '100%', md: '400px' },
             maxWidth: { md: '400px' },
             height: '100vh',
             bgcolor: 'secondary.dark',
