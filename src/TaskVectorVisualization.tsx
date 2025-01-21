@@ -29,8 +29,8 @@ const TaskVectorVisualization: React.FC<TaskVectorVisualizationProps> = ({ tasks
         }
 
         const radians = (angle * Math.PI) / 180;
-        const x = Math.cos(radians) * task.effort * SCALE_FACTOR;
-        const y = -Math.sin(radians) * task.effort * SCALE_FACTOR;
+        const x = Math.sin(radians) * task.effort * SCALE_FACTOR;
+        const y = -Math.cos(radians) * task.effort * SCALE_FACTOR;
 
         return { x, y };
     };
