@@ -63,6 +63,7 @@ const App = () => {
             tasks={tasks}
             alignments={alignments}
             selectedTask={selectedTask}
+            setSelectedTask={setSelectedTask}
           />
         </div>
       </div>
