@@ -15,9 +15,6 @@ interface TaskListProps {
 const TaskList: React.FC<TaskListProps> = ({ tasks, alignments, selectedTask, setSelectedTask, setAlignments }) => {
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h4" color="white" gutterBottom>
-        Task List
-      </Typography>
       <List>
         {tasks.map((task) => (
           <ListItem
@@ -37,17 +34,6 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, alignments, selectedTask, se
           </ListItem>
         ))}
       </List>
-
-      {selectedTask && (
-        <TaskDetailComponent
-          task={selectedTask}
-          tasks={tasks}
-          alignments={alignments}
-          setTasks={() => { }}
-          setAlignments={setAlignments}
-          deleteTask={() => { }}
-        />
-      )}
     </Box>
   );
 };

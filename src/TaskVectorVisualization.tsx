@@ -58,13 +58,27 @@ const TaskVectorVisualization: React.FC<TaskVectorVisualizationProps> = ({
     };
 
     return (
-        <Box sx={{ p: 4, bgcolor: 'grey.900', borderRadius: 2, boxShadow: 3 }}>
-            <Typography variant="h4" color="white" gutterBottom>
-                Task Vector Visualization
-            </Typography>
-
+        <Box
+            sx={{
+                width: '100%',
+                height: '100%',
+                bgcolor: 'grey.900',
+                borderRadius: 2,
+                boxShadow: 3,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center'
+            }}
+        >
             <Box sx={{ bgcolor: 'grey.800', borderRadius: 2, p: 2, overflow: 'hidden' }}>
-                <svg width="600" height="600" viewBox="-300 -300 600 600" style={{ background: 'black' }}>
+                <svg
+                    width="100%"
+                    height="100%"
+                    viewBox="-300 -300 600 600"
+                    preserveAspectRatio="xMidYMid meet"
+                    style={{ background: 'black', maxWidth: '100%', maxHeight: '100%' }}
+                >
                     <line x1="-300" y1="0" x2="300" y2="0" stroke="white" strokeWidth="1" />
                     <line x1="0" y1="-300" x2="0" y2="300" stroke="white" strokeWidth="1" />
 

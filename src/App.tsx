@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import TaskList from './TaskList';
 import TaskFormComponent from './TaskFormComponent';
-import { Task, Alignment } from './types';
-
+import TaskDetailComponent from './TaskDetailComponent';
 import TaskVectorVisualization from './TaskVectorVisualization';
+import { Task, Alignment } from './types';
+import { Box, Grid, Typography, Paper } from '@mui/material';
 
 const App = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [alignments, setAlignments] = useState<Alignment[]>([]);
-  const [newTask, setNewTask] = useState({ name: '', effort: 0 });
+  const [newTask, setNewTask] = useState({ name: '', unit: 'Hours' });
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-  const [secondTask, setSecondTask] = useState<Task | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/db.json');  // Load from public folder
+        const response = await fetch('/db.json'); // Load from public folder
         if (!response.ok) {
           throw new Error('Failed to load data');
         }
@@ -31,12 +31,23 @@ const App = () => {
   }, []);
 
   return (
-    <div className="flex w-full h-screen">
-      {/* Sidebar for tasks */}
-      <div className="flex-1 bg-gradient-to-br from-indigo-600 via-purple-500 to-pink-500 min-h-screen text-gray-900">
-        <div className="max-w-full mx-auto p-8">
-          <h1 className="text-4xl text-center mb-8 font-semibold text-white">Task Tracker</h1>
+    <Box sx={{ height: '100vh', bgcolor: 'background.default', color: 'white' }}>
 
+      <Grid container sx={{ height: '100vh', overflow: 'hidden' }}>
+        {/* Left Sidebar: Task Form + Task List */}
+        <Grid
+          item
+          xs={12}
+          md="auto"
+          sx={{
+            minWidth: { md: '300px' },  // Fixed width on larger screens
+            maxWidth: { md: '400px' },  // Limit width
+            overflowY: 'auto',          // Enable scrolling for content
+            height: '100vh',             // Full viewport height
+            bgcolor: 'secondary.dark',
+            p: 3,
+          }}
+        >
           <TaskFormComponent
             tasks={tasks}
             setTasks={setTasks}
@@ -49,22 +60,62 @@ const App = () => {
             alignments={alignments}
             selectedTask={selectedTask}
             setSelectedTask={setSelectedTask}
-            setSecondTask={setSecondTask}
             setAlignments={setAlignments}
+            setSecondTask={() => { }}
           />
-        </div>
-      </div>
+        </Grid>
 
-      {/* Visualization Panel */}
-      <div className="flex-1 bg-gradient-to-br from-indigo-600 via-purple-500 to-pink-500 min-h-screen text-gray-100">
-        <TaskVectorVisualization
-          tasks={tasks}
-          alignments={alignments}
-          selectedTask={selectedTask}
-          setSelectedTask={setSelectedTask}
-        />
-      </div>
-    </div>
+        <Grid
+          item
+          xs
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            bgcolor: 'secondary.main',
+            p: 3,
+            flexGrow: 1,      // Ensure it takes up all available space
+            minWidth: 0,       // Prevent flexbox shrinking issues
+            flexBasis: 0,      // Ensure it distributes space correctly
+          }}
+        >
+          <TaskVectorVisualization
+            tasks={tasks}
+            alignments={alignments}
+            selectedTask={selectedTask}
+            setSelectedTask={setSelectedTask}
+          />
+        </Grid>
+
+        {/* Right Sidebar: Task Details (only visible if a task is selected) */}
+        {selectedTask && (
+          <Grid
+            item
+            xs={12}
+            md="auto"
+            sx={{
+              minWidth: { md: '300px' },
+              maxWidth: { md: '400px' },
+              overflowY: 'auto',
+              height: '100vh',
+              bgcolor: 'secondary.dark',
+              p: 3,
+            }}
+          >
+            <TaskDetailComponent
+              task={selectedTask}
+              tasks={tasks}
+              alignments={alignments}
+              setTasks={() => { }}
+              setAlignments={setAlignments}
+              deleteTask={() => { }}
+            />
+          </Grid>
+        )}
+      </Grid>
+
+
+    </Box>
   );
 };
 
