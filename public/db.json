@@ -3,17 +3,32 @@
         {
             "id": 1,
             "name": "Learn React",
-            "effort": 5
+            "unit": "Months"
         },
         {
             "id": 2,
             "name": "Build Portfolio",
-            "effort": 8
+            "unit": "Years"
         },
         {
             "id": 3,
             "name": "Apply for Jobs",
-            "effort": 10
+            "unit": "Weeks"
+        },
+        {
+            "id": 4,
+            "name": "Learn TypeScript",
+            "unit": "Weeks"
+        },
+        {
+            "id": 5,
+            "name": "Get TypeScript Running Locally",
+            "unit": "Hours"
+        },
+        {
+            "id": 6,
+            "name": "Learn to Wing Foil",
+            "unit": "Days"
         }
     ],
     "alignments": [
@@ -22,6 +37,12 @@
             "task1": 1,
             "task2": 2,
             "value": 80
+        },
+        {
+            "id": 2,
+            "task1": 4,
+            "task2": 1,
+            "value": 90
         }
     ]
 }

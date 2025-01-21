@@ -4,51 +4,72 @@ import { Task } from './types';
 interface TaskFormComponentProps {
     tasks: Task[];
     setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
-    newTask: { name: string; effort: number };
-    setNewTask: React.Dispatch<React.SetStateAction<{ name: string; effort: number }>>;
+    newTask: { name: string; unit: 'Hours' | 'Days' | 'Weeks' | 'Months' | 'Years' };
+    setNewTask: React.Dispatch<React.SetStateAction<{ name: string; unit: 'Hours' | 'Days' | 'Weeks' | 'Months' | 'Years' }>>;
 }
 
-const TaskFormComponent: React.FC<TaskFormComponentProps> = ({
-    tasks,
-    setTasks,
-    newTask,
-    setNewTask,
-}) => {
-    const addTask = () => {
-        if (!newTask.name || newTask.effort <= 0) {
-            alert('Please enter valid task details');
-            return;
-        }
-        const newId = tasks.length + 1;
-        const newTaskData: Task = { id: newId, name: newTask.name, effort: newTask.effort };
-        setTasks([...tasks, newTaskData]);
-        setNewTask({ name: '', effort: 0 });
+const TaskFormComponent: React.FC<TaskFormComponentProps> = ({ tasks, setTasks, newTask, setNewTask }) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setNewTask((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        const newTaskWithId = {
+            ...newTask,
+            id: tasks.length ? tasks[tasks.length - 1].id + 1 : 1,
+        };
+        setTasks([...tasks, newTaskWithId]);
+        setNewTask({ name: '', unit: 'hours' }); // Reset form
     };
 
     return (
-        <div className="mb-6 p-4 bg-gray-800 rounded-lg shadow-md">
-            <h2 className="text-2xl mb-4 text-center text-white">Create Task</h2>
-            <input
-                type="text"
-                className="border border-gray-400 p-3 w-full mb-4 rounded-lg"
-                placeholder="Task Name"
-                value={newTask.name}
-                onChange={(e) => setNewTask({ ...newTask, name: e.target.value })}
-            />
-            <input
-                type="number"
-                className="border border-gray-400 p-3 w-full mb-4 rounded-lg"
-                placeholder="Effort"
-                value={newTask.effort}
-                onChange={(e) => setNewTask({ ...newTask, effort: parseInt(e.target.value) })}
-            />
+        <form onSubmit={handleSubmit} className="bg-gray-700 p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold text-white mb-4">Add New Task</h2>
+
+            <div className="mb-4">
+                <label htmlFor="name" className="block text-white mb-2">Task Name</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Enter task name"
+                    value={newTask.name}
+                    onChange={handleInputChange}
+                    className="w-full p-2 bg-gray-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    required
+                />
+            </div>
+
+            <div className="mb-4">
+                <label htmlFor="unit" className="block text-white mb-2">Unit of Effort</label>
+                <select
+                    id="unit"
+                    name="unit"
+                    value={newTask.unit}
+                    onChange={handleInputChange}
+                    className="w-full p-2 bg-gray-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    required
+                >
+                    <option value="hours">Hours</option>
+                    <option value="days">Days</option>
+                    <option value="weeks">Weeks</option>
+                    <option value="months">Months</option>
+                    <option value="years">Years</option>
+                </select>
+            </div>
+
             <button
-                className="bg-blue-500 hover:bg-blue-600 text-white p-3 w-full rounded-lg"
-                onClick={addTask}
+                type="submit"
+                className="w-full py-2 mt-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
                 Add Task
             </button>
-        </div>
+        </form>
     );
 };
 

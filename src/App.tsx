@@ -31,11 +31,10 @@ const App = () => {
   }, []);
 
   return (
-    <div className="flex">
+    <div className="flex w-full h-screen">
       {/* Sidebar for tasks */}
-      <div className="w-1/2"></div>
-      <div className="bg-gradient-to-br from-indigo-600 via-purple-500 to-pink-500 min-h-screen text-gray-900">
-        <div className="max-w-4xl mx-auto p-8">
+      <div className="flex-1 bg-gradient-to-br from-indigo-600 via-purple-500 to-pink-500 min-h-screen text-gray-900">
+        <div className="max-w-full mx-auto p-8">
           <h1 className="text-4xl text-center mb-8 font-semibold text-white">Task Tracker</h1>
 
           <TaskFormComponent
@@ -53,19 +52,17 @@ const App = () => {
             setSecondTask={setSecondTask}
             setAlignments={setAlignments}
           />
-
         </div>
       </div>
-      <div className="w-1/2">
-        <div className="bg-gradient-to-br from-indigo-600 via-purple-500 to-pink-500 min-h-screen text-gray-100">
 
-          <TaskVectorVisualization
-            tasks={tasks}
-            alignments={alignments}
-            selectedTask={selectedTask}
-            setSelectedTask={setSelectedTask}
-          />
-        </div>
+      {/* Visualization Panel */}
+      <div className="flex-1 bg-gradient-to-br from-indigo-600 via-purple-500 to-pink-500 min-h-screen text-gray-100">
+        <TaskVectorVisualization
+          tasks={tasks}
+          alignments={alignments}
+          selectedTask={selectedTask}
+          setSelectedTask={setSelectedTask}
+        />
       </div>
     </div>
   );

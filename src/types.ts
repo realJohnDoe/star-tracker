@@ -1,8 +1,9 @@
 export interface Task {
     id: number;
     name: string;
-    effort: number;
+    unit: 'Hours' | 'Days' | 'Weeks' | 'Months' | 'Years';  // Unit of effort
 }
+
 
 export interface Alignment {
     id: number;
