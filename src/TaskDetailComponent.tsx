@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Task, Alignment } from './types';
+import { Box, Typography, Select, MenuItem, Button, TextField, List, ListItem, Divider } from '@mui/material';
 
 interface TaskDetailProps {
     task: Task;
@@ -11,11 +12,10 @@ interface TaskDetailProps {
 }
 
 const TaskDetailComponent: React.FC<TaskDetailProps> = ({ task, alignments, tasks, setAlignments, deleteTask }) => {
-    // State for the selected task to align with and alignment value
     const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
     const [alignmentValue, setAlignmentValue] = useState<number>(0);
 
-    // Filter alignments specific to this task
+    // Filter alignments related to this task
     const taskAlignments = alignments.filter(
         (alignment) => alignment.task1 === task.id || alignment.task2 === task.id
     );
@@ -28,7 +28,7 @@ const TaskDetailComponent: React.FC<TaskDetailProps> = ({ task, alignments, task
         }
 
         const newAlignment: Alignment = {
-            id: Date.now(), // Temporary unique ID
+            id: Date.now(),
             task1: task.id,
             task2: selectedTaskId,
             value: alignmentValue,
@@ -36,79 +36,96 @@ const TaskDetailComponent: React.FC<TaskDetailProps> = ({ task, alignments, task
 
         setAlignments((prevAlignments) => [...prevAlignments, newAlignment]);
 
-        // Clear inputs after submission
         setSelectedTaskId(null);
         setAlignmentValue(0);
     };
 
     return (
-        <div className="bg-gray-800 p-6 rounded-lg text-white">
-            <h2 className="text-2xl mb-4">Task Details</h2>
-            <p><strong>Name:</strong> {task.name}</p>
-            <p><strong>Effort:</strong> {task.effort}</p>
+        <Box sx={{ bgcolor: 'grey.800', p: 4, borderRadius: 2, color: 'white', boxShadow: 3 }}>
+            <Typography variant="h4" gutterBottom>
+                Task Details
+            </Typography>
+            <Typography>
+                <strong>Name:</strong> {task.name}
+            </Typography>
+            <Typography>
+                <strong>Effort:</strong> {task.effort}
+            </Typography>
 
-            <h3 className="mt-4 text-lg">Alignments</h3>
+            <Typography variant="h6" sx={{ mt: 4 }}>
+                Alignments
+            </Typography>
             {taskAlignments.length > 0 ? (
-                <ul>
+                <List>
                     {taskAlignments.map((alignment) => {
                         const otherTaskId = alignment.task1 === task.id ? alignment.task2 : alignment.task1;
-                        const relatedTask = tasks.find(t => t.id === otherTaskId);
+                        const relatedTask = tasks.find((t) => t.id === otherTaskId);
                         return (
-                            <li key={alignment.id} className="mt-2">
-                                Aligned with <strong>{relatedTask?.name}</strong>: {alignment.value}%
-                            </li>
+                            <ListItem key={alignment.id}>
+                                <Typography>
+                                    Aligned with <strong>{relatedTask?.name}</strong>: {alignment.value}%
+                                </Typography>
+                            </ListItem>
                         );
                     })}
-                </ul>
+                </List>
             ) : (
-                <p>No alignments found.</p>
+                <Typography>No alignments found.</Typography>
             )}
 
-            <h3 className="mt-6 text-lg">Add New Alignment</h3>
-            <div className="mt-2">
-                <label className="block text-sm mb-1">Select Task:</label>
-                <select
-                    className="w-full p-2 rounded bg-gray-700 text-white"
+            <Divider sx={{ my: 3, bgcolor: 'grey.600' }} />
+
+            <Typography variant="h6" sx={{ mt: 4 }}>
+                Add New Alignment
+            </Typography>
+
+            <Box sx={{ mt: 2 }}>
+                <Typography variant="body1" sx={{ mb: 1 }}>
+                    Select Task:
+                </Typography>
+                <Select
+                    fullWidth
                     value={selectedTaskId ?? ''}
                     onChange={(e) => setSelectedTaskId(Number(e.target.value))}
+                    displayEmpty
+                    sx={{ bgcolor: 'grey.700', color: 'white' }}
                 >
-                    <option value="">-- Select a Task --</option>
+                    <MenuItem value="">-- Select a Task --</MenuItem>
                     {tasks
                         .filter((t) => t.id !== task.id)
                         .map((t) => (
-                            <option key={t.id} value={t.id}>
+                            <MenuItem key={t.id} value={t.id}>
                                 {t.name}
-                            </option>
+                            </MenuItem>
                         ))}
-                </select>
-            </div>
+                </Select>
+            </Box>
 
-            <div className="mt-2">
-                <label className="block text-sm mb-1">Alignment Value (%):</label>
-                <input
+            <Box sx={{ mt: 2 }}>
+                <Typography variant="body1" sx={{ mb: 1 }}>
+                    Alignment Value (%):
+                </Typography>
+                <TextField
                     type="number"
-                    className="w-full p-2 rounded bg-gray-700 text-white"
+                    fullWidth
+                    variant="outlined"
                     value={alignmentValue}
                     onChange={(e) => setAlignmentValue(Number(e.target.value))}
-                    min="1"
-                    max="100"
+                    inputProps={{ min: 1, max: 100 }}
+                    sx={{ bgcolor: 'grey.700', color: 'white', borderRadius: 1 }}
                 />
-            </div>
+            </Box>
 
-            <button
-                className="bg-blue-500 px-4 py-2 mt-4 rounded"
-                onClick={handleAddAlignment}
-            >
-                Add Alignment
-            </button>
+            <Box sx={{ mt: 4, display: 'flex', gap: 2 }}>
+                <Button variant="contained" color="primary" onClick={handleAddAlignment}>
+                    Add Alignment
+                </Button>
 
-            <button
-                className="bg-red-500 px-4 py-2 mt-4 ml-4 rounded"
-                onClick={() => deleteTask(task.id)}
-            >
-                Delete Task
-            </button>
-        </div>
+                <Button variant="contained" color="error" onClick={() => deleteTask(task.id)}>
+                    Delete Task
+                </Button>
+            </Box>
+        </Box>
     );
 };
 

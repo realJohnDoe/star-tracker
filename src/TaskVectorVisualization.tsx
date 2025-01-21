@@ -71,7 +71,7 @@ const TaskVectorVisualization: React.FC<TaskVectorVisualizationProps> = ({
                     {tasks.map((task) => {
                         const { x, y } = calculateVectorCoordinates(task);
                         return (
-                            <Tooltip key={task.id} title={`${task.name} (${task.effort} ${task.unit})`} arrow>
+                            <Tooltip key={task.id} title={`${task.name} (${task.unit})`} arrow>
                                 <line
                                     x1={0}
                                     y1={0}
@@ -103,7 +103,7 @@ const TaskVectorVisualization: React.FC<TaskVectorVisualizationProps> = ({
                         Selected Task Details
                     </Typography>
                     <Typography color="white"><strong>Name:</strong> {selectedTask.name}</Typography>
-                    <Typography color="white"><strong>Effort:</strong> {selectedTask.effort} {selectedTask.unit}</Typography>
+                    <Typography color="white"><strong>Effort:</strong> {selectedTask.unit}</Typography>
                 </Box>
             )}
         </Box>
