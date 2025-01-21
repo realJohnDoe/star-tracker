@@ -14,7 +14,7 @@ interface TaskListProps {
 
 const TaskList: React.FC<TaskListProps> = ({ tasks, alignments, selectedTask, setSelectedTask, setAlignments }) => {
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ pt: 3 }}>
       <List>
         {tasks.map((task) => (
           <ListItem
