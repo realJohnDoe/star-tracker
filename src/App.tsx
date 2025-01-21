@@ -45,7 +45,9 @@ const App = () => {
           alignments={alignments}
           setSelectedTask={setSelectedTask}
           setSecondTask={setSecondTask}
+          setAlignments={setAlignments}
         />
+
       </div>
     </div>
   );
