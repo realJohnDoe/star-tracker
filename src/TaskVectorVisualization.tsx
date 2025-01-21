@@ -47,9 +47,9 @@ const TaskVectorVisualization: React.FC<TaskVectorVisualizationProps> = ({
         const y = -Math.cos(radians) * magnitude;
 
         return { x, y };
-    };
+    }
 
-    const [hoveredTask, setHoveredTask] = useState<Task | null>(null);
+    const [, setHoveredTask] = useState<Task | null>(null);
 
     const handleTaskSelect = (task: Task) => {
         setSelectedTask(task);

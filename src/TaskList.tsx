@@ -1,7 +1,6 @@
 import React from 'react';
 import { Task, Alignment } from './types';
-import TaskDetailComponent from './TaskDetailComponent';
-import { List, ListItem, ListItemText, Typography, Box, Paper } from '@mui/material';
+import { List, ListItem, ListItemText, Box, Paper } from '@mui/material';
 
 interface TaskListProps {
   tasks: Task[];
@@ -12,7 +11,7 @@ interface TaskListProps {
   setAlignments: React.Dispatch<React.SetStateAction<Alignment[]>>;
 }
 
-const TaskList: React.FC<TaskListProps> = ({ tasks, alignments, selectedTask, setSelectedTask, setAlignments }) => {
+const TaskList: React.FC<TaskListProps> = ({ tasks, setSelectedTask }) => {
   return (
     <Box sx={{ pt: 3 }}>
       <List>
