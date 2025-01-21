@@ -4,7 +4,7 @@ import TaskFormComponent from './TaskFormComponent';
 import TaskDetailComponent from './TaskDetailComponent';
 import TaskVectorVisualization from './TaskVectorVisualization';
 import { Task, Alignment } from './types';
-import { Box, Grid, Typography, Paper } from '@mui/material';
+import { Box } from '@mui/material';
 
 const App = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -31,96 +31,94 @@ const App = () => {
   }, []);
 
   return (
-    <Box sx={{ height: '100vh', bgcolor: 'background.default', color: 'white' }}>
+    <Box
+      sx={{
+        position: 'relative',
+        width: '100vw',
+        height: '100vh',
+        bgcolor: 'background.default',
+        color: 'white',
+      }}
+    >
+      {/* TaskVectorVisualization in the background */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 1, // Lower z-index to stay in the background
+        }}
+      >
+        <TaskVectorVisualization
+          tasks={tasks}
+          alignments={alignments}
+          selectedTask={selectedTask}
+          setSelectedTask={setSelectedTask}
+        />
+      </Box>
 
-      <Grid container sx={{ height: '100vh', overflow: 'hidden' }}>
-        {/* Left Sidebar: Task Form + Task List */}
-        <Grid
-          item
-          xs={12}
-          md="auto"
+      {/* Left Sidebar: Task Form + Task List */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: { xs: '100%', md: '300px' },  // Full width on small screens, fixed width on larger
+          maxWidth: { md: '400px' },
+          height: '100vh',
+          bgcolor: 'secondary.dark',
+          p: 3,
+          zIndex: 2, // Higher z-index to overlay on visualization
+          overflowY: 'auto', // Allow scrolling
+          boxShadow: 3, // Add a subtle shadow for better visibility
+        }}
+      >
+        <TaskFormComponent
+          tasks={tasks}
+          setTasks={setTasks}
+          newTask={newTask}
+          setNewTask={setNewTask}
+        />
+
+        <TaskList
+          tasks={tasks}
+          alignments={alignments}
+          selectedTask={selectedTask}
+          setSelectedTask={setSelectedTask}
+          setAlignments={setAlignments}
+          setSecondTask={() => { }}
+        />
+      </Box>
+
+      {/* Right Sidebar: Task Details (visible if a task is selected) */}
+      {selectedTask && (
+        <Box
           sx={{
-            minWidth: { md: '300px' },  // Fixed width on larger screens
-            maxWidth: { md: '400px' },  // Limit width
-            overflowY: 'auto',          // Enable scrolling for content
-            height: '100vh',             // Full viewport height
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            width: { xs: '100%', md: '300px' },
+            maxWidth: { md: '400px' },
+            height: '100vh',
             bgcolor: 'secondary.dark',
             p: 3,
+            zIndex: 2, // Ensure it's above the visualization
+            overflowY: 'auto',
+            boxShadow: 3,
           }}
         >
-          <TaskFormComponent
-            tasks={tasks}
-            setTasks={setTasks}
-            newTask={newTask}
-            setNewTask={setNewTask}
-          />
-
-          <TaskList
+          <TaskDetailComponent
+            task={selectedTask}
             tasks={tasks}
             alignments={alignments}
-            selectedTask={selectedTask}
-            setSelectedTask={setSelectedTask}
+            setTasks={() => { }}
             setAlignments={setAlignments}
-            setSecondTask={() => { }}
+            deleteTask={() => { }}
           />
-        </Grid>
-
-        <Grid
-          item
-          xs
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',    // This ensures the content inside the Grid is laid out vertically
-            justifyContent: 'center',   // Centers the content vertically if it's small
-            alignItems: 'stretch',      // Ensures that the content stretches horizontally
-            bgcolor: 'secondary.main',
-            p: 3,
-            flexGrow: 1,                // Makes sure the grid takes all available space
-            minWidth: 0,                // Prevents flexbox shrinking issues
-            flexBasis: 0,               // Ensures correct distribution of space
-            width: '100%',              // Ensures full width
-            height: '100%',             // Ensures full height
-          }}
-        >
-          <TaskVectorVisualization
-            tasks={tasks}
-            alignments={alignments}
-            selectedTask={selectedTask}
-            setSelectedTask={setSelectedTask}
-          />
-        </Grid>
-
-
-
-
-        {/* Right Sidebar: Task Details (only visible if a task is selected) */}
-        {selectedTask && (
-          <Grid
-            item
-            xs={12}
-            md="auto"
-            sx={{
-              minWidth: { md: '300px' },
-              maxWidth: { md: '400px' },
-              overflowY: 'auto',
-              height: '100vh',
-              bgcolor: 'secondary.dark',
-              p: 3,
-            }}
-          >
-            <TaskDetailComponent
-              task={selectedTask}
-              tasks={tasks}
-              alignments={alignments}
-              setTasks={() => { }}
-              setAlignments={setAlignments}
-              deleteTask={() => { }}
-            />
-          </Grid>
-        )}
-      </Grid>
-
-
+        </Box>
+      )}
     </Box>
   );
 };
