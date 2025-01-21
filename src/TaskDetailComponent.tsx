@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Task, Alignment } from './types';
 import { Box, Typography, Select, MenuItem, Button, TextField, List, ListItem, Divider } from '@mui/material';
+import { calculateIndirectAlignments } from './calculateVectorSpace';
 
 interface TaskDetailProps {
     task: Task;
@@ -15,10 +16,15 @@ const TaskDetailComponent: React.FC<TaskDetailProps> = ({ task, alignments, task
     const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
     const [alignmentValue, setAlignmentValue] = useState<number>(0);
 
-    // Filter alignments related to this task
+    // Filter alignments related to this task (direct alignments)
     const taskAlignments = alignments.filter(
         (alignment) => alignment.task1 === task.id || alignment.task2 === task.id
     );
+
+    // Memoize indirect alignments calculation to optimize performance
+    const indirectAlignments = useMemo(() => {
+        return calculateIndirectAlignments(task.id, alignments);
+    }, [task.id, alignments]);
 
     // Handle adding a new alignment
     const handleAddAlignment = () => {
@@ -50,7 +56,7 @@ const TaskDetailComponent: React.FC<TaskDetailProps> = ({ task, alignments, task
             </Typography>
 
             <Typography variant="h6" sx={{ mt: 4 }}>
-                Alignments
+                Direct Alignments
             </Typography>
             {taskAlignments.length > 0 ? (
                 <List>
@@ -67,7 +73,27 @@ const TaskDetailComponent: React.FC<TaskDetailProps> = ({ task, alignments, task
                     })}
                 </List>
             ) : (
-                <Typography>No alignments found.</Typography>
+                <Typography>No direct alignments found.</Typography>
+            )}
+
+            <Typography variant="h6" sx={{ mt: 4 }}>
+                Indirect Alignments
+            </Typography>
+            {Object.keys(indirectAlignments).length > 0 ? (
+                <List>
+                    {Object.entries(indirectAlignments).map(([taskId, value]) => {
+                        const relatedTask = tasks.find((t) => t.id === Number(taskId));
+                        return (
+                            <ListItem key={taskId}>
+                                <Typography>
+                                    Indirectly aligned with <strong>{relatedTask?.name}</strong>: {(value * 100).toFixed(2)}%
+                                </Typography>
+                            </ListItem>
+                        );
+                    })}
+                </List>
+            ) : (
+                <Typography>No indirect alignments found.</Typography>
             )}
 
             <Divider sx={{ my: 3, bgcolor: 'grey.600' }} />
