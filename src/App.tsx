@@ -42,6 +42,7 @@ const App = () => {
 
         <TaskList
           tasks={tasks}
+          alignments={alignments}
           setSelectedTask={setSelectedTask}
           setSecondTask={setSecondTask}
         />

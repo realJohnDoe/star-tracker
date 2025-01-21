@@ -1,26 +1,16 @@
-import React from 'react';
-import { Task } from './types';
+import React, { useState } from 'react';
+import { Task, Alignment } from './types';
 import TaskDetailComponent from './TaskDetailComponent';
 
 interface TaskListProps {
     tasks: Task[];
+    alignments: Alignment[];
     setSelectedTask: React.Dispatch<React.SetStateAction<Task | null>>;
     setSecondTask: React.Dispatch<React.SetStateAction<Task | null>>;
 }
 
-const TaskList: React.FC<TaskListProps> = ({ tasks, setSelectedTask, setSecondTask }) => {
-    const [selectedTask, setSelectedTaskState] = React.useState<Task | null>(null);
-
-    const deleteTask = async (id: number) => {
-        try {
-            await fetch(`http://localhost:5000/tasks/${id}`, { method: 'DELETE' });
-            const updatedTasks = tasks.filter(task => task.id !== id);
-            setSelectedTaskState(null);
-            setSelectedTask(updatedTasks);
-        } catch (error) {
-            console.error('Error deleting task:', error);
-        }
-    };
+const TaskList: React.FC<TaskListProps> = ({ tasks, alignments, setSelectedTask, setSecondTask }) => {
+    const [selectedTask, setSelectedTaskState] = useState<Task | null>(null);
 
     return (
         <div>
@@ -37,14 +27,15 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, setSelectedTask, setSecondTa
                 ))}
             </ul>
 
+            {/* Show Task Details when a task is selected */}
             {selectedTask && (
                 <TaskDetailComponent
                     task={selectedTask}
                     tasks={tasks}
-                    alignments={[]}  // Placeholder for now
+                    alignments={alignments}  // Pass alignments here
                     setTasks={() => { }}
                     setAlignments={() => { }}
-                    deleteTask={deleteTask}
+                    deleteTask={() => { }}
                 />
             )}
         </div>
