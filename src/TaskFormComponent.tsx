@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Task } from './types';
 import { Box, TextField, MenuItem, Button, Typography } from '@mui/material';
 
 interface TaskFormComponentProps {
     tasks: Task[];
     setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
-    newTask: { name: string; unit: 'Hours' | 'Days' | 'Weeks' | 'Months' | 'Years' };
-    setNewTask: React.Dispatch<React.SetStateAction<{ name: string; unit: 'Hours' | 'Days' | 'Weeks' | 'Months' | 'Years' }>>;
 }
 
-const TaskFormComponent: React.FC<TaskFormComponentProps> = ({ tasks, setTasks, newTask, setNewTask }) => {
+const TaskFormComponent: React.FC<TaskFormComponentProps> = ({ tasks, setTasks }) => {
+  
+    const [newTask, setNewTask] = useState<Task>({ id:0,name: '', unit: 'Hours' });
+
+    
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setNewTask((prev) => ({
@@ -25,7 +27,7 @@ const TaskFormComponent: React.FC<TaskFormComponentProps> = ({ tasks, setTasks, 
             id: tasks.length ? tasks[tasks.length - 1].id + 1 : 1,
         };
         setTasks([...tasks, newTaskWithId]);
-        setNewTask({ name: '', unit: 'Hours' }); // Reset form
+
     };
 
     return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import TaskList from './TaskList';
 import TaskFormComponent from './TaskFormComponent';
 import TaskDetailComponent from './TaskDetailComponent';
@@ -9,7 +9,6 @@ import { Box } from '@mui/material';
 const App = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [alignments, setAlignments] = useState<Alignment[]>([]);
-  const [newTask, setNewTask] = useState({ name: '', unit: 'Hours' });
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
   useEffect(() => {
@@ -78,8 +77,7 @@ const App = () => {
         <TaskFormComponent
           tasks={tasks}
           setTasks={setTasks}
-          newTask={newTask}
-          setNewTask={setNewTask}
+
         />
 
         <TaskList
