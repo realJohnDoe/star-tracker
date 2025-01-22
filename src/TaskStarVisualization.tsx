@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Stage, Layer, Circle, Text, Image } from 'react-konva';
 import useImage from 'use-image'; // Correct import for use-image hook
+import Konva from 'konva'; // Import Konva to use filters
 import { Task, Alignment } from './types';
 import { calculateIndirectAlignments } from './calculateVectorSpace';
 
@@ -15,7 +16,6 @@ const BASE_UNIT_IN_PIXELS = 50;
 const UNIT_SCALE: Record<string, number> = { Hours: 1, Days: 2, Weeks: 3, Months: 4, Years: 5 };
 const SCALE_FACTOR = 1;
 
-// Replace with the actual path to your starry sky image
 const BACKGROUND_IMAGE_URL = './background.webp';
 
 const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
@@ -26,6 +26,7 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
 }) => {
     const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
     const [backgroundImage] = useImage(BACKGROUND_IMAGE_URL); // Load background image
+    const imageRef = useRef<any>(null); // Use `any` type for imageRef to avoid TypeScript issues
 
     useEffect(() => {
         const handleResize = () => {
@@ -34,6 +35,17 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    useEffect(() => {
+        if (backgroundImage && imageRef.current) {
+            // Apply brightness filter when the image is loaded
+            const imgNode = imageRef.current;
+            imgNode.cache(); // Cache the image for better performance
+            imgNode.filters([Konva.Filters.Brighten]); // Apply brightness filter
+            imgNode.brightness(-0.3); // Reduce brightness (0 is normal, less than 0 darkens, greater brightens)
+            imgNode.getLayer()?.batchDraw(); // Redraw the layer after applying the filter
+        }
+    }, [backgroundImage]);
 
     const centerX = dimensions.width / 2;
     const centerY = dimensions.height / 2;
@@ -101,6 +113,7 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
                         image={backgroundImage}
                         width={dimensions.width}
                         height={dimensions.height}
+                        ref={imageRef} // Assign the ref to the Image node
                     />
                 )}
 
