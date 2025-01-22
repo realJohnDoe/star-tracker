@@ -1,10 +1,10 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import TaskList from './TaskList';
 import TaskFormComponent from './TaskFormComponent';
 import TaskDetailComponent from './TaskDetailComponent';
-import TaskVectorVisualization from './TaskVectorVisualization';
 import { Task, Alignment } from './types';
 import { Box } from '@mui/material';
+import TaskStarVisualization from './TaskStarVisualization';
 
 const App = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -50,7 +50,7 @@ const App = () => {
           zIndex: 1, // Lower z-index to stay in the background
         }}
       >
-        <TaskVectorVisualization
+        <TaskStarVisualization
           tasks={tasks}
           alignments={alignments}
           selectedTask={selectedTask}
