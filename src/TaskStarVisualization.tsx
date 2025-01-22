@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Stage, Layer, Circle, Text, Image } from 'react-konva';
+import { Stage, Layer, Circle, Text, Image, Line } from 'react-konva';
 import useImage from 'use-image'; // Correct import for use-image hook
 import Konva from 'konva'; // Import Konva to use filters
 import { Task, Alignment } from './types';
@@ -114,6 +114,41 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
         return () => clearInterval(interval);
     }, [tasks]);
 
+    const generateLensFlare = (task: Task) => {
+        const rays = [];
+        const numberOfRays = 12; // Number of rays for the lens flare
+
+        // Get coordinates of the selected task's star
+        const { x, y } = calculateStarCoordinates(task);
+
+        // Calculate the angular step between each ray (evenly spaced)
+        const angleStep = (2 * Math.PI) / numberOfRays;
+
+        // Generate rays at constant, evenly distributed angles
+        for (let i = 0; i < numberOfRays; i++) {
+            const angle = i * angleStep; // Evenly spaced angles around the circle
+            const length = 7 + 5 * (i % 2); // Random length for rays
+            const offsetX = Math.cos(angle) * length;
+            const offsetY = Math.sin(angle) * length;
+
+            // Create each ray as a line element
+            rays.push(
+                <Line
+                    key={`lensFlareRay-${i}`}
+                    points={[x, y, x + offsetX, y + offsetY]} // Start and end points of the ray
+                    stroke="rgba(255, 255, 255, 0.8)" // Soft white color for the rays
+                    strokeWidth={2} // Thin lines for rays
+                    opacity={0.3 + 0.2} // Slight variation in opacity
+                    lineCap="round" // Round the end of the rays
+                    lineJoin="round" // Round the joints between rays
+                />
+            );
+        }
+
+        return rays;
+    };
+
+
 
 
 
@@ -145,6 +180,10 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
                     />
                 )}
 
+
+                {/* Render scattering effect (lens flare) around the selected task */}
+                {selectedTask && generateLensFlare(selectedTask)}
+
                 {tasks.map((task) => {
                     const { x, y } = calculateStarCoordinates(task);
 
@@ -153,7 +192,7 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
                             key={task.id}
                             x={x}
                             y={y}
-                            radius={hoveredTask === task ? 10 : 4}
+                            radius={hoveredTask === task ? 6 : 3}
                             fillLinearGradientStartPoint={{ x: -5, y: -5 }}
                             fillLinearGradientEndPoint={{ x: 5, y: 5 }}
                             fillLinearGradientColorStops={[0.7, 'white', 1, 'rgba(255,255,255,0.2)']} // Increase the gradient opacity for a brighter effect
