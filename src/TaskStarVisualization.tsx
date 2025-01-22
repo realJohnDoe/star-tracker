@@ -28,6 +28,7 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
     const [backgroundImage] = useImage(BACKGROUND_IMAGE_URL); // Load background image
     const imageRef = useRef<any>(null); // Use `any` type for imageRef to avoid TypeScript issues
 
+    // Set up the background image filter on load
     useEffect(() => {
         const handleResize = () => {
             setDimensions({ width: window.innerWidth, height: window.innerHeight });
@@ -87,18 +88,34 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
     const [hoveredTask, setHoveredTask] = useState<Task | null>(null);
     const [twinkle, setTwinkle] = useState<Record<number, number>>({});
 
+    // Update the twinkling effect to create sudden bursts and slow dimming
     useEffect(() => {
         const interval = setInterval(() => {
             setTwinkle((prev) => {
                 const newTwinkle: Record<number, number> = {};
                 tasks.forEach((task) => {
-                    newTwinkle[task.id] = Math.random() * 0.5 + 0.5;
+                    // Create a random factor to decide when to burst
+                    const flashChance = Math.random();
+                    let newOpacity = prev[task.id] || 0.7; // Start with a default opacity
+
+                    // 10% chance for a burst (sudden brightness)
+                    if (flashChance < 0.01) {
+                        newOpacity = 1; // Brighten the star instantly
+                    } else {
+                        newOpacity = Math.max(0.5, newOpacity - 0.03); // Slowly fade it to dimmer opacity
+                    }
+
+                    newTwinkle[task.id] = newOpacity; // Set the new opacity
                 });
                 return newTwinkle;
             });
-        }, 1000);
+        }, 100); // Run the effect with a slower frequency to make the change noticeable (100ms)
+
         return () => clearInterval(interval);
     }, [tasks]);
+
+
+
 
     const handleTaskSelect = (task: Task) => {
         setSelectedTask(task);
@@ -136,18 +153,20 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
                             key={task.id}
                             x={x}
                             y={y}
-                            radius={hoveredTask === task ? 10 : 6}
+                            radius={hoveredTask === task ? 10 : 4}
                             fillLinearGradientStartPoint={{ x: -5, y: -5 }}
                             fillLinearGradientEndPoint={{ x: 5, y: 5 }}
-                            fillLinearGradientColorStops={[0, 'white', 1, 'rgba(255,255,255,0.1)']}
-                            opacity={twinkle[task.id] || 1}
-                            shadowBlur={15}
+                            fillLinearGradientColorStops={[0.7, 'white', 1, 'rgba(255,255,255,0.2)']} // Increase the gradient opacity for a brighter effect
+                            opacity={twinkle[task.id] || 1} // Use the twinkling opacity here
+                            shadowBlur={40} // Reduce shadow blur for a more concentrated light effect
                             shadowColor="white"
+                            shadowOpacity={0.8} // Add shadow opacity to make the glow effect more intense
                             onMouseEnter={() => setHoveredTask(task)}
                             onMouseLeave={() => setHoveredTask(null)}
                             onClick={() => handleTaskSelect(task)}
                             style={{ cursor: 'pointer' }}
                         />
+
                     );
                 })}
             </Layer>
