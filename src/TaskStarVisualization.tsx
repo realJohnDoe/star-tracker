@@ -45,8 +45,22 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
             imgNode.filters([Konva.Filters.Brighten]); // Apply brightness filter
             imgNode.brightness(-0.3); // Reduce brightness (0 is normal, less than 0 darkens, greater brightens)
             imgNode.getLayer()?.batchDraw(); // Redraw the layer after applying the filter
+
+            // Adjust the crop to move the center further down to the left (keeping top right)
+            const width = backgroundImage.width;
+            const height = backgroundImage.height;
+
+            imgNode.crop({
+                x: 0.035 * width,
+                y: 0.0,
+                width: width,
+                height: 0.83 * height,
+            });
+
+            imgNode.getLayer()?.batchDraw(); // Redraw the layer after applying changes
         }
     }, [backgroundImage]);
+
 
     const centerX = dimensions.width / 2;
     const centerY = dimensions.height / 2;
