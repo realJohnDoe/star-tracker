@@ -1,9 +1,9 @@
-import {  Alignment } from "./types";
+import { Alignment } from "./types";
 
 export const calculateIndirectAlignments = (
     selectedTaskId: number,
     alignments: Alignment[]
-): Record<number, number> => {
+): Omit<Alignment, 'id'>[] => {
     const alignmentMap = new Map<number, Alignment[]>();
 
     // Build bidirectional adjacency list for task alignments
@@ -48,5 +48,12 @@ export const calculateIndirectAlignments = (
         }
     }
 
-    return maxAlignments;
-};
+    // Map the maxAlignments record to Alignment[]
+    const indirectAlignments: Omit<Alignment, 'id'>[] = Object.entries(maxAlignments).map(([taskId, value]) => ({
+        task1: selectedTaskId,
+        task2: parseInt(taskId), // Convert the taskId from string to number
+        value: value * 100, // Convert the value back to a percentage
+    }));
+
+    return indirectAlignments;
+};  

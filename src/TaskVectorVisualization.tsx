@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Task, Alignment } from './types';
 import { Box, Typography, Tooltip } from '@mui/material';
+import { calculateIndirectAlignments } from './calculateVectorSpace';
 
 interface TaskVectorVisualizationProps {
     tasks: Task[];
@@ -20,6 +21,8 @@ const TaskVectorVisualization: React.FC<TaskVectorVisualizationProps> = ({
     const UNIT_SCALE = { Hours: 1, Days: 2, Weeks: 3, Months: 4, Years: 5 };
     const SCALE_FACTOR = 1;
 
+    const allAlignments = [...alignments, ...(selectedTask ? calculateIndirectAlignments(selectedTask.id, alignments) : [])]
+
     const getMagnitude = (effort: number, unit: keyof typeof UNIT_SCALE) => {
         return effort * BASE_UNIT_IN_PIXELS * UNIT_SCALE[unit] * SCALE_FACTOR;
     };
@@ -31,7 +34,7 @@ const TaskVectorVisualization: React.FC<TaskVectorVisualizationProps> = ({
             return { x: 0, y: -magnitude };
         }
 
-        const alignment = alignments.find(
+        const alignment = allAlignments.find(
             (a) =>
                 (a.task1 === selectedTask?.id && a.task2 === task.id) ||
                 (a.task1 === task.id && a.task2 === selectedTask?.id)

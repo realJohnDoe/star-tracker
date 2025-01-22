@@ -81,12 +81,13 @@ const TaskDetailComponent: React.FC<TaskDetailProps> = ({ task, alignments, task
             </Typography>
             {Object.keys(indirectAlignments).length > 0 ? (
                 <List>
-                    {Object.entries(indirectAlignments).map(([taskId, value]) => {
-                        const relatedTask = tasks.find((t) => t.id === Number(taskId));
+                    {indirectAlignments.map((alignment) => {
+                        const otherTaskId = alignment.task1 === task.id ? alignment.task2 : alignment.task1;
+                        const relatedTask = tasks.find((t) => t.id === otherTaskId);
                         return (
-                            <ListItem key={taskId}>
+                            <ListItem key={crypto.randomUUID()}>
                                 <Typography>
-                                    Indirectly aligned with <strong>{relatedTask?.name}</strong>: {(value * 100).toFixed(2)}%
+                                    Indirectly aligned with <strong>{relatedTask?.name}</strong>: {alignment.value.toFixed(0)}%
                                 </Typography>
                             </ListItem>
                         );
