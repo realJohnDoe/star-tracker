@@ -84,6 +84,9 @@ const TaskFormList: React.FC<TaskFormListProps> = ({ tasks, setTasks, alignments
                             '&:hover fieldset': {
                                 borderColor: 'primary.main',
                             },
+                            '& input': {
+                                color: 'white',  // Add this line to ensure the input text is white
+                            },
                         },
                     }}
                 />
@@ -112,6 +115,12 @@ const TaskFormList: React.FC<TaskFormListProps> = ({ tasks, setTasks, alignments
                             '&:hover fieldset': {
                                 borderColor: 'primary.main',
                             },
+                            '& input': {
+                                color: 'white',  // Ensure text inside the input field is white
+                            },
+                        },
+                        '& .MuiSelect-select': {
+                            color: 'white',  // Ensure the selected value text is white
                         },
                     }}
                 >

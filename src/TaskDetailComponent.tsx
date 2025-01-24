@@ -136,7 +136,12 @@ const TaskDetailComponent: React.FC<TaskDetailProps> = ({ task, alignments, task
                     value={alignmentValue}
                     onChange={(e) => setAlignmentValue(Number(e.target.value))}
                     inputProps={{ min: 1, max: 100 }}
-                    sx={{ bgcolor: 'grey.700', color: 'white', borderRadius: 1 }}
+                    sx={{
+                        bgcolor: 'grey.700', color: 'white', borderRadius: 1,
+                        '& input': {
+                            color: 'white',  // Ensure text inside the input field is white
+                        },
+                    }}
                 />
             </Box>
 
