@@ -16,7 +16,7 @@ const BASE_UNIT_IN_PIXELS = 50;
 const UNIT_SCALE: Record<string, number> = { Hours: 1, Days: 2, Weeks: 3, Months: 4, Years: 5 };
 const SCALE_FACTOR = 1;
 
-const BACKGROUND_IMAGE_URL = './background.webp';
+const BACKGROUND_IMAGE_URL = './background-4k.jpg';
 
 const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
     tasks,
@@ -43,19 +43,8 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
             const imgNode = imageRef.current;
             imgNode.cache(); // Cache the image for better performance
             imgNode.filters([Konva.Filters.Brighten]); // Apply brightness filter
-            imgNode.brightness(-0.3); // Reduce brightness (0 is normal, less than 0 darkens, greater brightens)
+            imgNode.brightness(-0.1); // Reduce brightness (0 is normal, less than 0 darkens, greater brightens)
             imgNode.getLayer()?.batchDraw(); // Redraw the layer after applying the filter
-
-            // Adjust the crop to move the center further down to the left (keeping top right)
-            const width = backgroundImage.width;
-            const height = backgroundImage.height;
-
-            imgNode.crop({
-                x: 0.035 * width,
-                y: 0.0,
-                width: width,
-                height: 0.83 * height,
-            });
 
             imgNode.getLayer()?.batchDraw(); // Redraw the layer after applying changes
         }
@@ -75,7 +64,7 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
     };
 
     const calculateStarCoordinates = (task: Task): { x: number; y: number } => {
-        const magnitude = getMagnitude(1.0, task.unit);
+        const magnitude = getMagnitude(1.5, task.unit);
 
         if (task.id === selectedTask?.id) {
             return { x: centerX, y: centerY - magnitude };
@@ -173,15 +162,58 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
     return (
         <Stage width={dimensions.width} height={dimensions.height}>
             <Layer>
-                {/* Render the background image */}
-                {backgroundImage && (
-                    <Image
-                        image={backgroundImage}
-                        width={dimensions.width}
-                        height={dimensions.height}
-                        ref={imageRef} // Assign the ref to the Image node
-                    />
-                )}
+                {backgroundImage && (() => {
+                    // Original image dimensions
+                    const imgWidth = backgroundImage.width;
+                    const imgHeight = backgroundImage.height;
+
+                    // Screen dimensions
+                    const screenWidth = dimensions.width;
+                    const screenHeight = dimensions.height;
+
+                    // Customizable alignment offsets (values range -1 to 1)
+                    const customOffsetX = 0.0;  // Move left (-) or right (+)
+                    const customOffsetY = 0.2; // Move up (-) or down (+)
+
+                    // Define how much of the image we want to use, influenced by offsets
+                    const cropWidth = imgWidth * (1 - Math.abs(customOffsetX));
+                    const cropHeight = imgHeight * (1 - Math.abs(customOffsetY));
+
+                    // Calculate the cropping region based on alignment offsets
+                    const cropX = (imgWidth - cropWidth) / 2 + customOffsetX * (imgWidth / 2);
+                    const cropY = (imgHeight - cropHeight) / 2 + customOffsetY * (imgHeight / 2);
+
+                    // Calculate the scale factor to fit the cropped region to the screen
+                    const scaleFactor = Math.max(screenWidth / cropWidth, screenHeight / cropHeight);
+
+                    // Calculate final scaled size
+                    const scaledWidth = cropWidth * scaleFactor;
+                    const scaledHeight = cropHeight * scaleFactor;
+
+                    // Calculate the final position to align the image to the screen
+                    const finalX = -cropX * scaleFactor;
+                    const finalY = -cropY * scaleFactor;
+
+                    return (
+                        <Image
+                            image={backgroundImage}
+                            ref={imageRef}
+                            x={finalX}
+                            y={finalY}
+                            width={scaledWidth}
+                            height={scaledHeight}
+                            crop={{
+                                x: cropX,
+                                y: cropY,
+                                width: cropWidth,
+                                height: cropHeight,
+                            }}
+                        />
+                    );
+                })()}
+
+
+
 
                 {/* Placeholder text when no task is selected */}
                 {!selectedTask && (
