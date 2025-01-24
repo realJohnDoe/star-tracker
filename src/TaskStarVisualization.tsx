@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Stage, Layer, Circle, Text, Image, Line } from 'react-konva';
+import { Stage, Layer, Circle, Text, Image, Line, Rect } from 'react-konva';
 import useImage from 'use-image'; // Correct import for use-image hook
 import Konva from 'konva'; // Import Konva to use filters
 import { Task, Alignment, taskUnitValues } from './types';
@@ -64,6 +64,9 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
 
     const centerX = dimensions.width / 2;
     const centerY = dimensions.height / 2;
+
+    const falloff = 0.1;
+    const maxBeam = 'rgba(255, 255, 255, 0.149)'
 
     const allAlignments = [
         ...alignments,
@@ -226,7 +229,16 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
                 })()}
 
 
-
+                {/* Render the vertical line with transparency gradient */}
+                <Rect
+                    x={centerX - 25}
+                    y={centerY + 25}
+                    width={50} // Thin vertical line
+                    height={-dimensions.height}
+                    fillLinearGradientStartPoint={{ x: 0, y: centerY }}
+                    fillLinearGradientEndPoint={{ x: 50, y: centerY }}
+                    fillLinearGradientColorStops={[0, 'rgba(255, 255, 255, 0)', 0.5 - falloff, maxBeam, 0.5 + falloff, maxBeam, 1, 'rgba(255, 255, 255, 0)']}
+                />
 
                 {/* Placeholder text when no task is selected */}
                 {!selectedTask && (
