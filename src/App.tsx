@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import TaskList from './TaskList';
-import TaskFormComponent from './TaskFormComponent';
 import TaskFormList from './TaskFormList'
 import TaskDetailComponent from './TaskDetailComponent';
 import { Task, Alignment } from './types';

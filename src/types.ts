@@ -1,7 +1,7 @@
 export interface Task {
     id: number;
     name: string;
-    unit: 'Hours' | 'Days' | 'Weeks' | 'Months' | 'Years';  // Unit of effort
+    unit: 'Hours' | 'Days' | 'Weeks' | 'Months' | 'Years' | 'Evergreen';  // Unit of effort
 }
 
 

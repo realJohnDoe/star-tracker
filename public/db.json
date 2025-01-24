@@ -7,7 +7,7 @@
         },
         {
             "id": 2,
-            "name": "Build Portfolio",
+            "name": "Build Software Engineering Portfolio",
             "unit": "Years"
         },
         {
@@ -28,7 +28,7 @@
         {
             "id": 6,
             "name": "Learn to Wing Foil",
-            "unit": "Days"
+            "unit": "Weeks"
         },
         {
             "id": 7,
@@ -44,6 +44,16 @@
             "id": 9,
             "name": "Get Familiar with Material Design",
             "unit": "Hours"
+        },
+        {
+            "id": 10,
+            "name": "Sports",
+            "unit": "Evergreen"
+        },
+        {
+            "id": 11,
+            "name": "Career",
+            "unit": "Evergreen"
         }
     ],
     "alignments": [
@@ -88,6 +98,18 @@
             "task1": 2,
             "task2": 9,
             "value": 70
+        },
+        {
+            "id": 8,
+            "task1": 10,
+            "task2": 6,
+            "value": 80
+        },
+        {
+            "id": 9,
+            "task1": 11,
+            "task2": 2,
+            "value": 80
         }
     ]
 }

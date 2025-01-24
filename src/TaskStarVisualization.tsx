@@ -13,7 +13,7 @@ interface TaskStarVisualizationProps {
 }
 
 const BASE_UNIT_IN_PIXELS = 50;
-const UNIT_SCALE: Record<string, number> = { Hours: 1, Days: 2, Weeks: 3, Months: 4, Years: 5 };
+const UNIT_SCALE: Record<string, number> = { Hours: 1, Days: 2, Weeks: 3, Months: 4, Years: 5, Evergreen: 6 };
 const SCALE_FACTOR = 1;
 
 const BACKGROUND_IMAGE_URL = './background-4k.jpg';
@@ -75,7 +75,7 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
     };
 
     const calculateStarCoordinates = (task: Task): { x: number; y: number } => {
-        const magnitude = getMagnitude(1.5, task.unit);
+        const magnitude = getMagnitude(1.3, task.unit);
 
         if (task.id === selectedTask?.id) {
             return { x: centerX, y: centerY - magnitude };
