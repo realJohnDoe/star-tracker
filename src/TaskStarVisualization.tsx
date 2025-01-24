@@ -189,7 +189,7 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
 
                     // Customizable alignment offsets (values range -1 to 1)
                     const customOffsetX = 0.0;  // Move left (-) or right (+)
-                    const customOffsetY = 0.2; // Move up (-) or down (+)
+                    const customOffsetY = 0.204; // Move up (-) or down (+)
 
                     // Define how much of the image we want to use, influenced by offsets
                     const cropWidth = imgWidth * (1 - Math.abs(customOffsetX));
@@ -232,7 +232,7 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
                 {/* Render the vertical line with transparency gradient */}
                 <Rect
                     x={centerX - 25}
-                    y={centerY + 25}
+                    y={centerY}
                     width={50} // Thin vertical line
                     height={-dimensions.height}
                     fillLinearGradientStartPoint={{ x: 0, y: centerY }}
