@@ -28,6 +28,17 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
     const [backgroundImage] = useImage(BACKGROUND_IMAGE_URL); // Load background image
     const imageRef = useRef<any>(null); // Use `any` type for imageRef to avoid TypeScript issues
 
+    const [randomXSign, setRandomXSign] = useState<Record<number, number>>({});
+
+    useEffect(() => {
+        // Initialize the random x-direction for each task only once
+        const initialXSign: Record<number, number> = {};
+        tasks.forEach((task) => {
+            initialXSign[task.id] = Math.random() < 0.5 ? -1 : 1;
+        });
+        setRandomXSign(initialXSign);
+    }, [tasks]);
+
     // Set up the background image filter on load
     useEffect(() => {
         const handleResize = () => {
@@ -82,11 +93,13 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
         }
 
         const radians = (angle * Math.PI) / 180;
-        const x = centerX + Math.sin(radians) * magnitude;
+        const xSign = randomXSign[task.id] || 1;  // Use precomputed random x-sign
+        const x = centerX + xSign * Math.sin(radians) * magnitude;
         const y = centerY - Math.cos(radians) * magnitude;
 
         return { x, y };
     };
+
 
     const [hoveredTask, setHoveredTask] = useState<Task | null>(null);
     const [twinkle, setTwinkle] = useState<Record<number, number>>({});
