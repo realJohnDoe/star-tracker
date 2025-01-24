@@ -248,6 +248,7 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
                                 x={x}
                                 y={y}
                                 radius={hoveredTask === task ? 6 : 3}
+                                hitStrokeWidth={6}
                                 fillLinearGradientStartPoint={{ x: -5, y: -5 }}
                                 fillLinearGradientEndPoint={{ x: 5, y: 5 }}
                                 fillLinearGradientColorStops={[0.7, 'white', 1, 'rgba(255,255,255,0.2)']}
