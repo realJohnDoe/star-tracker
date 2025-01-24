@@ -67,11 +67,10 @@ const App = () => {
           width: { xs: '100%', md: '400px' },  // Full width on small screens, fixed width on larger
           maxWidth: { md: '400px' },
           height: '100vh',
-          bgcolor: 'secondary.dark',
+          bgcolor: 'transparent',
           p: 3,
           zIndex: 2, // Higher z-index to overlay on visualization
           overflowY: 'auto', // Allow scrolling
-          boxShadow: 3, // Add a subtle shadow for better visibility
         }}
       >
         <TaskFormComponent
@@ -100,11 +99,10 @@ const App = () => {
             width: { xs: '100%', md: '400px' },
             maxWidth: { md: '400px' },
             height: '100vh',
-            bgcolor: 'secondary.dark',
+            bgcolor: 'transparent',
             p: 3,
             zIndex: 2, // Ensure it's above the visualization
             overflowY: 'auto',
-            boxShadow: 3,
           }}
         >
           <TaskDetailComponent

@@ -105,7 +105,7 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
                     if (flashChance < 0.01) {
                         newOpacity = 1; // Brighten the star instantly
                     } else {
-                        newOpacity = Math.max(0.5, newOpacity - 0.03); // Slowly fade it to dimmer opacity
+                        newOpacity = Math.max(0.7, newOpacity - 0.03); // Slowly fade it to dimmer opacity
                     }
 
                     newTwinkle[task.id] = newOpacity; // Set the new opacity
@@ -141,7 +141,7 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
                     points={[x, y, x + offsetX, y + offsetY]} // Start and end points of the ray
                     stroke="rgba(255, 255, 255, 0.8)" // Soft white color for the rays
                     strokeWidth={2} // Thin lines for rays
-                    opacity={0.3 + 0.2} // Slight variation in opacity
+                    opacity={0.5}
                     lineCap="round" // Round the end of the rays
                     lineJoin="round" // Round the joints between rays
                 />

@@ -29,6 +29,16 @@
             "id": 6,
             "name": "Learn to Wing Foil",
             "unit": "Days"
+        },
+        {
+            "id": 7,
+            "name": "Get to First Foiling",
+            "unit": "Days"
+        },
+        {
+            "id": 8,
+            "name": "Learn to Control Wing on the Beach",
+            "unit": "Hours"
         }
     ],
     "alignments": [
@@ -48,6 +58,24 @@
             "id": 3,
             "task1": 5,
             "task2": 4,
+            "value": 90
+        },
+        {
+            "id": 4,
+            "task1": 3,
+            "task2": 2,
+            "value": 80
+        },
+        {
+            "id": 5,
+            "task1": 6,
+            "task2": 7,
+            "value": 90
+        },
+        {
+            "id": 6,
+            "task1": 7,
+            "task2": 8,
             "value": 90
         }
     ]
