@@ -39,6 +39,11 @@
             "id": 8,
             "name": "Learn to Control Wing on the Beach",
             "unit": "Hours"
+        },
+        {
+            "id": 9,
+            "name": "Get Familiar with Material Design",
+            "unit": "Hours"
         }
     ],
     "alignments": [
@@ -77,6 +82,12 @@
             "task1": 7,
             "task2": 8,
             "value": 90
+        },
+        {
+            "id": 7,
+            "task1": 2,
+            "task2": 9,
+            "value": 70
         }
     ]
 }

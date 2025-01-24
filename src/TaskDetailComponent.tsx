@@ -47,7 +47,7 @@ const TaskDetailComponent: React.FC<TaskDetailProps> = ({ task, alignments, task
     };
 
     return (
-        <Box sx={{ bgcolor: 'grey.800', p: 4, borderRadius: 2, color: 'white', boxShadow: 3 }}>
+        <Box sx={{ bgcolor: 'grey.800', p: 4, borderRadius: 2, color: 'white', boxShadow: 3, overflowY: 'auto' }}>
             <Typography variant="h4" gutterBottom>
                 {task.name}
             </Typography>
@@ -66,7 +66,7 @@ const TaskDetailComponent: React.FC<TaskDetailProps> = ({ task, alignments, task
                         return (
                             <ListItem key={alignment.id}>
                                 <Typography>
-                                    Aligned with <strong>{relatedTask?.name}</strong>: {alignment.value}%
+                                    <strong>{relatedTask?.name}</strong>: {alignment.value}%
                                 </Typography>
                             </ListItem>
                         );
@@ -87,7 +87,7 @@ const TaskDetailComponent: React.FC<TaskDetailProps> = ({ task, alignments, task
                         return (
                             <ListItem key={crypto.randomUUID()}>
                                 <Typography>
-                                    Indirectly aligned with <strong>{relatedTask?.name}</strong>: {alignment.value}%
+                                    <strong>{relatedTask?.name}</strong>: {alignment.value}%
                                 </Typography>
                             </ListItem>
                         );

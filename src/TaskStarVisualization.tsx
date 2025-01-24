@@ -233,7 +233,7 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
                     <Text
                         text="Select a task to visualize."
                         x={centerX - 100}
-                        y={centerY - 20}
+                        y={centerY - 100}
                         fontSize={24}
                         fill="white"
                     />

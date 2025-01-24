@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import TaskList from './TaskList';
 import TaskFormComponent from './TaskFormComponent';
+import TaskFormList from './TaskFormList'
 import TaskDetailComponent from './TaskDetailComponent';
 import { Task, Alignment } from './types';
 import { Box } from '@mui/material';
@@ -65,15 +66,15 @@ const App = () => {
           top: 0,
           left: 0,
           width: { xs: '100%', md: '400px' },  // Full width on small screens, fixed width on larger
-          maxWidth: { md: '400px' },
           height: '100vh',
+          display: 'flex',
+          maxWidth: { md: '400px' },
           bgcolor: 'transparent',
           p: 3,
           zIndex: 2, // Higher z-index to overlay on visualization
-          overflowY: 'auto', // Allow scrolling
         }}
       >
-        <TaskFormComponent
+        {/* <TaskFormComponent
           tasks={tasks}
           setTasks={setTasks}
 
@@ -86,6 +87,15 @@ const App = () => {
           setSelectedTask={setSelectedTask}
           setAlignments={setAlignments}
           setSecondTask={() => { }}
+        /> */}
+
+        <TaskFormList
+          tasks={tasks}
+          setTasks={setTasks}
+          alignments={alignments}
+          selectedTask={selectedTask}
+          setSelectedTask={setSelectedTask}
+          setAlignments={setAlignments}
         />
       </Box>
 
@@ -99,6 +109,7 @@ const App = () => {
             width: { xs: '100%', md: '400px' },
             maxWidth: { md: '400px' },
             height: '100vh',
+            display: 'flex',
             bgcolor: 'transparent',
             p: 3,
             zIndex: 2, // Ensure it's above the visualization
