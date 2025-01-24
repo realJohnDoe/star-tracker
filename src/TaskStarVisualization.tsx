@@ -242,6 +242,20 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
 
                 {/* Render scattering effect (lens flare) around the selected task */}
                 {selectedTask && generateLensFlare(selectedTask)}
+                {selectedTask && (() => {
+                    const { x, y } = calculateStarCoordinates(selectedTask);
+                    return (
+                        <Text
+                            text={selectedTask.name}
+                            x={x - 20}
+                            y={y - 35}
+                            fontSize={16}
+                            fill="white"
+                            align="center"
+                            fontStyle="bold"
+                        />
+                    );
+                })()}
 
                 {tasks
                     .filter((task) =>
@@ -256,24 +270,34 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
                         const { x, y } = calculateStarCoordinates(task);
 
                         return (
-                            <Circle
-                                key={task.id}
-                                x={x}
-                                y={y}
-                                radius={hoveredTask === task ? 6 : 3}
-                                hitStrokeWidth={6}
-                                fillLinearGradientStartPoint={{ x: -5, y: -5 }}
-                                fillLinearGradientEndPoint={{ x: 5, y: 5 }}
-                                fillLinearGradientColorStops={[0.7, 'white', 1, 'rgba(255,255,255,0.2)']}
-                                opacity={twinkle[task.id] || 1}
-                                shadowBlur={40}
-                                shadowColor="white"
-                                shadowOpacity={0.8}
-                                onMouseEnter={() => setHoveredTask(task)}
-                                onMouseLeave={() => setHoveredTask(null)}
-                                onClick={() => handleTaskSelect(task)}
-                                style={{ cursor: 'pointer' }}
-                            />
+                            <React.Fragment>
+                                <Circle
+                                    key={task.id}
+                                    x={x}
+                                    y={y}
+                                    radius={hoveredTask === task ? 6 : 3}
+                                    hitStrokeWidth={6}
+                                    fillLinearGradientStartPoint={{ x: -5, y: -5 }}
+                                    fillLinearGradientEndPoint={{ x: 5, y: 5 }}
+                                    fillLinearGradientColorStops={[0.7, 'white', 1, 'rgba(255,255,255,0.2)']}
+                                    opacity={twinkle[task.id] || 1}
+                                    shadowBlur={40}
+                                    shadowColor="white"
+                                    shadowOpacity={0.8}
+                                    onMouseEnter={() => setHoveredTask(task)}
+                                    onMouseLeave={() => setHoveredTask(null)}
+                                    onClick={() => handleTaskSelect(task)}
+                                    style={{ cursor: 'pointer' }}
+                                />
+                                <Text
+                                    text={task.name}
+                                    x={x - 20}
+                                    y={y - 25}
+                                    fontSize={14}
+                                    fill="white"
+                                    align="center"
+                                />
+                            </React.Fragment>
                         );
                     })}
 
