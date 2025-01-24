@@ -87,7 +87,7 @@ const TaskDetailComponent: React.FC<TaskDetailProps> = ({ task, alignments, task
                         return (
                             <ListItem key={crypto.randomUUID()}>
                                 <Typography>
-                                    Indirectly aligned with <strong>{relatedTask?.name}</strong>: {alignment.value.toFixed(0)}%
+                                    Indirectly aligned with <strong>{relatedTask?.name}</strong>: {alignment.value}%
                                 </Typography>
                             </ListItem>
                         );

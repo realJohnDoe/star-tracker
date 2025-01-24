@@ -52,7 +52,7 @@ export const calculateIndirectAlignments = (
     const indirectAlignments: Omit<Alignment, 'id'>[] = Object.entries(maxAlignments).map(([taskId, value]) => ({
         task1: selectedTaskId,
         task2: parseInt(taskId), // Convert the taskId from string to number
-        value: value * 100, // Convert the value back to a percentage
+        value: Math.round(value * 100), // Convert the value back to a percentage
     }));
 
     return indirectAlignments;
