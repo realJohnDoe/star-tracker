@@ -52,7 +52,7 @@ const TaskDetailComponent: React.FC<TaskDetailProps> = ({ task, alignments, task
                 {task.name}
             </Typography>
             <Typography>
-                <strong>Effort:</strong> {task.unit}
+                {task.unit}
             </Typography>
 
             <Typography variant="h6" sx={{ mt: 4 }}>

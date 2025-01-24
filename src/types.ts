@@ -1,7 +1,9 @@
+export const taskUnitValues = ['Hours', 'Days', 'Weeks', 'Months', 'Years', 'Evergreen'] as const;
+
 export interface Task {
     id: number;
     name: string;
-    unit: 'Hours' | 'Days' | 'Weeks' | 'Months' | 'Years' | 'Evergreen';  // Unit of effort
+    unit: typeof taskUnitValues[number]
 }
 
 

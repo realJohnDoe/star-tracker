@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Task, Alignment } from './types';
+import { Task, Alignment, taskUnitValues } from './types';
 import { Box, TextField, MenuItem, Button, Typography, Divider } from '@mui/material';
 
 interface TaskFormListProps {
@@ -64,7 +64,7 @@ const TaskFormList: React.FC<TaskFormListProps> = ({ tasks, setTasks, alignments
                     fullWidth
                     id="name"
                     name="name"
-                    label="Task Name"
+                    label="Experience"
                     variant="outlined"
                     value={newTask.name}
                     onChange={handleInputChange}
@@ -92,7 +92,7 @@ const TaskFormList: React.FC<TaskFormListProps> = ({ tasks, setTasks, alignments
                     select
                     id="unit"
                     name="unit"
-                    label="Unit of Effort"
+                    label="Duration"
                     value={newTask.unit}
                     onChange={handleInputChange}
                     variant="outlined"
@@ -115,11 +115,11 @@ const TaskFormList: React.FC<TaskFormListProps> = ({ tasks, setTasks, alignments
                         },
                     }}
                 >
-                    <MenuItem value="Hours">Hours</MenuItem>
-                    <MenuItem value="Days">Days</MenuItem>
-                    <MenuItem value="Weeks">Weeks</MenuItem>
-                    <MenuItem value="Months">Months</MenuItem>
-                    <MenuItem value="Years">Years</MenuItem>
+                    {taskUnitValues.map((unit) => (
+                        <MenuItem key={unit} value={unit}>
+                            {unit}
+                        </MenuItem>
+                    ))}
                 </TextField>
                 <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
                     Add Task
@@ -154,7 +154,7 @@ const TaskFormList: React.FC<TaskFormListProps> = ({ tasks, setTasks, alignments
                                 {task.name}
                             </Typography>
                             <Typography variant="body2" color="white">
-                                Unit: {task.unit}
+                                {task.unit}
                             </Typography>
                         </Box>
 

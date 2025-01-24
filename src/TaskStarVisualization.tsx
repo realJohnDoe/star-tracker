@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Stage, Layer, Circle, Text, Image, Line } from 'react-konva';
 import useImage from 'use-image'; // Correct import for use-image hook
 import Konva from 'konva'; // Import Konva to use filters
-import { Task, Alignment } from './types';
+import { Task, Alignment, taskUnitValues } from './types';
 import { calculateIndirectAlignments } from './calculateVectorSpace';
 
 interface TaskStarVisualizationProps {
@@ -13,7 +13,7 @@ interface TaskStarVisualizationProps {
 }
 
 const BASE_UNIT_IN_PIXELS = 50;
-const UNIT_SCALE: Record<string, number> = { Hours: 1, Days: 2, Weeks: 3, Months: 4, Years: 5, Evergreen: 6 };
+const UNIT_SCALE: Record<typeof taskUnitValues[number], number> = { Hours: 1, Days: 2, Weeks: 3, Months: 4, Years: 5, Evergreen: 6 };
 const SCALE_FACTOR = 1;
 
 const BACKGROUND_IMAGE_URL = './background-4k.jpg';
@@ -70,8 +70,8 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
         ...(selectedTask ? calculateIndirectAlignments(selectedTask.id, alignments) : []),
     ];
 
-    const getMagnitude = (effort: number, unit: keyof typeof UNIT_SCALE): number => {
-        return effort * BASE_UNIT_IN_PIXELS * UNIT_SCALE[unit] * SCALE_FACTOR;
+    const getMagnitude = (duration: number, unit: keyof typeof UNIT_SCALE): number => {
+        return duration * BASE_UNIT_IN_PIXELS * UNIT_SCALE[unit] * SCALE_FACTOR;
     };
 
     const calculateStarCoordinates = (task: Task): { x: number; y: number } => {
