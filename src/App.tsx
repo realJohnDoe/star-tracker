@@ -3,7 +3,7 @@ import TaskFormList from './TaskFormList'
 import TaskDetailComponent from './TaskDetailComponent';
 import { Task, Alignment } from './types';
 import { Box } from '@mui/material';
-import TaskStarVisualization from './TaskStarVisualization';
+import TaskStarVisualization from './visualization/TaskStarVisualization';
 
 const App = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
