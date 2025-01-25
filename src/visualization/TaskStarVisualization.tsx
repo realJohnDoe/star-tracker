@@ -6,6 +6,7 @@ import { Task, Alignment, taskUnitValues } from './types';
 import { calculateIndirectAlignments } from '../calculateVectorSpace';
 import AlignmentLines from "./AlignmentLines"
 import BackgroundImage from './BackgroundImage';
+import CenterBeam from './CenterBeam';
 
 interface TaskStarVisualizationProps {
     tasks: Task[];
@@ -188,14 +189,8 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
 
 
                 {/* Render the vertical line with transparency gradient */}
-                <Rect
-                    x={centerX - 25}
-                    y={centerY}
-                    width={50} // Thin vertical line
-                    height={-dimensions.height}
-                    fillLinearGradientStartPoint={{ x: 0, y: centerY }}
-                    fillLinearGradientEndPoint={{ x: 50, y: centerY }}
-                    fillLinearGradientColorStops={[0, 'rgba(255, 255, 255, 0)', 0.5 - falloff, maxBeam, 0.5 + falloff, maxBeam, 1, 'rgba(255, 255, 255, 0)']}
+                <CenterBeam
+                    centerX={centerX} centerY={centerY} dimensions={dimensions} falloff={falloff} maxBeam={maxBeam}
                 />
 
                 {/* Placeholder text when no task is selected */}
@@ -208,7 +203,6 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
                         fill="white"
                     />
                 )}
-
 
                 {/* Render scattering effect (lens flare) around the selected task */}
                 {selectedTask && generateLensFlare(selectedTask)}
@@ -278,9 +272,6 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
                     selectedTask={selectedTask}
                     calculateStarCoordinates={calculateStarCoordinates}
                 />
-
-
-
             </Layer>
         </Stage>
     );

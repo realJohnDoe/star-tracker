@@ -24,7 +24,7 @@ const BackgroundImage: React.FC<BackgroundImageProps> = ({ backgroundImage, dime
 
                 // Customizable alignment offsets (values range -1 to 1)
                 const customOffsetX = 0.0;  // Move left (-) or right (+)
-                const customOffsetY = 0.204; // Move up (-) or down (+)
+                const customOffsetY = 0.205; // Move up (-) or down (+)
 
                 // Define how much of the image we want to use, influenced by offsets
                 const cropWidth = imgWidth * (1 - Math.abs(customOffsetX));
