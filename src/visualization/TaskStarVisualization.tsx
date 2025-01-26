@@ -7,6 +7,7 @@ import { calculateIndirectAlignments } from '../calculateVectorSpace';
 import AlignmentLines from "./AlignmentLines"
 import BackgroundImage from './BackgroundImage';
 import CenterBeam from './CenterBeam';
+import PlaceholderText from './PlaceholderText';
 
 interface TaskStarVisualizationProps {
     tasks: Task[];
@@ -194,15 +195,12 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
                 />
 
                 {/* Placeholder text when no task is selected */}
-                {!selectedTask && (
-                    <Text
-                        text="Select a task to visualize."
-                        x={centerX - 100}
-                        y={centerY - 100}
-                        fontSize={24}
-                        fill="white"
-                    />
-                )}
+                {!selectedTask && 
+                    <PlaceholderText
+                        centerX={centerX}
+                        centerY={centerY}
+                        ></PlaceholderText>
+                }
 
                 {/* Render scattering effect (lens flare) around the selected task */}
                 {selectedTask && generateLensFlare(selectedTask)}
