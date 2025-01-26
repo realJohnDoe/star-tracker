@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Stage, Layer, Circle, Text, Image, Line, Rect } from 'react-konva';
+import { Stage, Layer, Circle, Text, Line } from 'react-konva';
 import useImage from 'use-image'; // Correct import for use-image hook
 import Konva from 'konva'; // Import Konva to use filters
-import { Task, Alignment, taskUnitValues } from './types';
+import { Task, Alignment, taskUnitValues } from '../types';
 import { calculateIndirectAlignments } from '../calculateVectorSpace';
 import AlignmentLines from "./AlignmentLines"
 import BackgroundImage from './BackgroundImage';
