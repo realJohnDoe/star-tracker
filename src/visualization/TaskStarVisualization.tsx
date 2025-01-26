@@ -9,6 +9,7 @@ import BackgroundImage from './BackgroundImage';
 import CenterBeam from './CenterBeam';
 import PlaceholderText from './PlaceholderText';
 import LensFlare from './LensFlare';
+import TaskNode from './TaskNode';
 
 interface TaskStarVisualizationProps {
     tasks: Task[];
@@ -109,7 +110,6 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
     };
 
 
-    const [hoveredTask, setHoveredTask] = useState<Task | null>(null);
     const [twinkle, setTwinkle] = useState<Record<number, number>>({});
 
     // Update the twinkling effect to create sudden bursts and slow dimming
@@ -138,9 +138,11 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
         return () => clearInterval(interval);
     }, [tasks]);
 
-    const handleTaskSelect = (task: Task) => {
+    const handleTaskSelect = (taskId: number) => {
+        const task = tasks.find((task) => task.id === taskId) || null;
         setSelectedTask(task);
     };
+
 
     return (
         <Stage width={dimensions.width} height={dimensions.height}>
@@ -201,23 +203,11 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
 
                         return (
                             <React.Fragment>
-                                <Circle
-                                    key={task.id}
+                                <TaskNode
                                     x={x}
                                     y={y}
-                                    radius={hoveredTask === task ? 6 : 3}
-                                    hitStrokeWidth={6}
-                                    fillLinearGradientStartPoint={{ x: -5, y: -5 }}
-                                    fillLinearGradientEndPoint={{ x: 5, y: 5 }}
-                                    fillLinearGradientColorStops={[0.7, 'white', 1, 'rgba(255,255,255,0.2)']}
                                     opacity={twinkle[task.id] || 1}
-                                    shadowBlur={40}
-                                    shadowColor="white"
-                                    shadowOpacity={0.8}
-                                    onMouseEnter={() => setHoveredTask(task)}
-                                    onMouseLeave={() => setHoveredTask(null)}
-                                    onClick={() => handleTaskSelect(task)}
-                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => handleTaskSelect(task.id)}
                                 />
                                 <Text
                                     text={task.name}
