@@ -90,7 +90,6 @@ const App = () => {
         <TaskFormList
           tasks={tasks}
           setTasks={setTasks}
-          alignments={alignments}
           selectedTask={selectedTask}
           setSelectedTask={setSelectedTask}
           setAlignments={setAlignments}

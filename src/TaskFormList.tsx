@@ -5,13 +5,12 @@ import { Box, TextField, MenuItem, Button, Typography, Divider } from '@mui/mate
 interface TaskFormListProps {
     tasks: Task[];
     setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
-    alignments: Alignment[];
     selectedTask: Task | null;
     setSelectedTask: React.Dispatch<React.SetStateAction<Task | null>>;
     setAlignments: React.Dispatch<React.SetStateAction<Alignment[]>>;
 }
 
-const TaskFormList: React.FC<TaskFormListProps> = ({ tasks, setTasks, alignments, selectedTask, setSelectedTask }) => {
+const TaskFormList: React.FC<TaskFormListProps> = ({ tasks, setTasks, selectedTask, setSelectedTask }) => {
     const [newTask, setNewTask] = useState<Task>({ id: 0, name: '', unit: 'Hours' });
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

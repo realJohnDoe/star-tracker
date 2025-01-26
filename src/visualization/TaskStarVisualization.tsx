@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Stage, Layer, Circle, Text, Line } from 'react-konva';
+import { Stage, Layer, Text } from 'react-konva';
 import useImage from 'use-image'; // Correct import for use-image hook
 import Konva from 'konva'; // Import Konva to use filters
 import { Task, Alignment, taskUnitValues } from '../types';
