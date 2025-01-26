@@ -8,6 +8,7 @@ import AlignmentLines from "./AlignmentLines"
 import BackgroundImage from './BackgroundImage';
 import CenterBeam from './CenterBeam';
 import PlaceholderText from './PlaceholderText';
+import LensFlare from './LensFlare';
 
 interface TaskStarVisualizationProps {
     tasks: Task[];
@@ -137,44 +138,6 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
         return () => clearInterval(interval);
     }, [tasks]);
 
-    const generateLensFlare = (task: Task) => {
-        const rays = [];
-        const numberOfRays = 12; // Number of rays for the lens flare
-
-        // Get coordinates of the selected task's star
-        const { x, y } = calculateStarCoordinates(task);
-
-        // Calculate the angular step between each ray (evenly spaced)
-        const angleStep = (2 * Math.PI) / numberOfRays;
-
-        // Generate rays at constant, evenly distributed angles
-        for (let i = 0; i < numberOfRays; i++) {
-            const angle = i * angleStep; // Evenly spaced angles around the circle
-            const length = 7 + 5 * (i % 2); // Random length for rays
-            const offsetX = Math.cos(angle) * length;
-            const offsetY = Math.sin(angle) * length;
-
-            // Create each ray as a line element
-            rays.push(
-                <Line
-                    key={`lensFlareRay-${i}`}
-                    points={[x, y, x + offsetX, y + offsetY]} // Start and end points of the ray
-                    stroke="rgba(255, 255, 255, 0.8)" // Soft white color for the rays
-                    strokeWidth={2} // Thin lines for rays
-                    opacity={0.5}
-                    lineCap="round" // Round the end of the rays
-                    lineJoin="round" // Round the joints between rays
-                />
-            );
-        }
-
-        return rays;
-    };
-
-
-
-
-
     const handleTaskSelect = (task: Task) => {
         setSelectedTask(task);
     };
@@ -195,18 +158,22 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
                 />
 
                 {/* Placeholder text when no task is selected */}
-                {!selectedTask && 
+                {!selectedTask &&
                     <PlaceholderText
                         centerX={centerX}
                         centerY={centerY}
-                        ></PlaceholderText>
+                    ></PlaceholderText>
                 }
 
-                {/* Render scattering effect (lens flare) around the selected task */}
-                {selectedTask && generateLensFlare(selectedTask)}
                 {selectedTask && (() => {
                     const { x, y } = calculateStarCoordinates(selectedTask);
+                    
                     return (
+                        <>
+                        <LensFlare
+                            x={x}
+                            y={y}
+                        />
                         <Text
                             text={selectedTask.name}
                             x={x - 20}
@@ -216,6 +183,7 @@ const TaskStarVisualization: React.FC<TaskStarVisualizationProps> = ({
                             align="center"
                             fontStyle="bold"
                         />
+                        </>
                     );
                 })()}
 

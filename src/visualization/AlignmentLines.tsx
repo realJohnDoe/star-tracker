@@ -5,7 +5,7 @@ import { Task, Alignment } from '../types';
 interface AlignmentLinesProps {
     tasks: Task[];
     alignments: Alignment[];
-    allAlignments:Alignment[];
+    allAlignments:Omit<Alignment, "id">[];
     selectedTask: Task | null;
     calculateStarCoordinates: (task: Task) => { x: number; y: number };
 }
